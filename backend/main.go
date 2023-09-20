@@ -13,6 +13,10 @@ import (
 	"github.com/gofiber/template/html/v2"
 )
 
+type Person struct {
+	Name string `json:"name" xml:"name" form:"name"`
+}
+
 func main() {
 	dirname := getPathToRoot()
 	engine := html.New("./public/views", ".html")
@@ -32,7 +36,19 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Render("pages/index", fiber.Map{
-			"name": "felix",
+			"name": "unkwown",
+		})
+	})
+
+	app.Post("hello", func(c *fiber.Ctx) error {
+		p := new(Person)
+
+		if err := c.BodyParser(p); err != nil {
+			return err
+		}
+
+		return c.Render("actions/hello", fiber.Map{
+			"name": p.Name,
 		})
 	})
 

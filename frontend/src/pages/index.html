@@ -9,10 +9,17 @@
 </head>
 
 <body>
-	<p>hello {{.name}}</p>
+	{{template "actions/hello" .}}
+
+	<form action="/hello" method="post" hx-post="/hello" hx-target="#page-heading" hx-swap="outerHTML" hx-trigger="submit">
+		<label for="name">Wie ist dein Name?</label><br>
+		<input type="text" name="name" id="name">
+		<button type="submit">Submit</button>
+	</form>
+	<br>
 
 	<button hx-post="/clicked" hx-swap="outerHTML">
-		Click Me
+		Click Me to see me disappear!
 	</button>
 </body>
 
